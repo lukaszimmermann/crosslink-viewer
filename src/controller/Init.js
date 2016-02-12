@@ -362,23 +362,23 @@ xiNET.Controller.prototype.initLayout = function() {
 	//this.maxBlobRadius = Math.sqrt(Protein.MAXSIZE / Math.PI);
 	var width = this.svgElement.parentNode.clientWidth;
 	Protein.UNITS_PER_RESIDUE = (((width / 2)) - Protein.LABELMAXLENGTH) / Protein.MAXSIZE;  var groupCount = this.groups.values().length;
-    if (groupCount > 1 && groupCount < 5) {
+    if (groupCount > 1 && groupCount < 11) {
 		//can now choose link colours for comparing sets
 		var catCount = this.groups.values().length;
 		//~ if (catCount > 1 && catCount < 6) {
 		//~ if (catCount < 3){catCount = 3;}
         // if (catCount < 21) {
-			//~ if (catCount < 9) {
+			if (catCount < 6) {
 				//~ var reversed = colorbrewer.Accent[3];
 				this.linkColours = d3.scale.ordinal().range(colorbrewer.Dark2[5]);
-			//~ }
+			}
 			//~ else if (catCount < 13) {
 				//~ var reversed = colorbrewer.Set3[catCount];
 				//~ this.linkColours = d3.scale.ordinal().range(reversed);
 			//~ }
-			//~ else {
-				//~ this.linkColours = d3.scale.category20();
-			//~ }	
+			else {
+				this.linkColours = d3.scale.ordinal().range(colorbrewer.Paired[10]);
+			}	
 		//}	
 			var groups = this.groups.values();
 			for (var g = 0; g < groupCount; g++) {
@@ -514,13 +514,18 @@ xiNET.Controller.prototype.getLinksCSV = function() {
 }*/
 
 xiNET.Controller.bestId = function(protein){
-	if (protein.accession) {
+	if (protein.accession && protein.name) {
+		return "sp|" + protein.accession + "|" + protein.name;
+	}
+	else if (protein.accession) {
 		return protein.accession;
 	}
-	if (protein.name) {
+	else if (protein.name) {
 		return protein.name;
 	}
-	return protein.id;
+	else {
+		return protein.id;
+	}
 }
 
 xiNET.Controller.prototype.addProtein = function(id, label, sequence, accession) {
