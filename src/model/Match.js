@@ -138,8 +138,10 @@ function Match(controller,id,
 	linkPos1 = sanitisePositions(linkPos1);
 	linkPos2 = sanitisePositions(linkPos2);
 	
-	if (pep1_positions.length == 1 && pep2_positions.length == 1) {
-		this.controller.unambigLinkFound = true; 
+	if (pep1_positions && pep2_positions) {
+		if (pep1_positions.length == 1 && pep2_positions.length == 1) {
+			this.controller.unambigLinkFound = true; 
+		}
 	}
 		
 	// tidy up postions (peptide and link positions), 
